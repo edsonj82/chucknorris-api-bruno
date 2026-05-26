@@ -49,3 +49,28 @@ A organização segue o padrão do ecossistema nativo do Bruno:
 │   ├── Retrieve a random chuck joke.yml
 │   └── opencollection.yml            # Configurações globais da coleção
 └── README.md
+```
+
+## 🚀 Como Executar
+
+Como o Bruno salva as coleções nativamente na pasta do seu projeto, a execução é extremamente simples:
+
+1. Instale o Bruno API Client em sua máquina (via site oficial ou gerenciador de pacotes do sistema).
+
+2. Abra o aplicativo Bruno.
+
+3. Clique em "Open Collection" na tela inicial e selecione a pasta raiz CHUCKNORRISJOKE deste repositório.
+
+4. No canto superior direito da interface, selecione o ambiente api.chuck.env para inicializar as variáveis.
+
+5. Selecione qualquer requisição da barra lateral esquerda e clique em "Send" para testar as respostas em tempo real (como demonstrado na resposta com status 200 OK).
+
+Este projeto reflete a aplicação de padrões avançados de QA Engineering, focado na criação de pipelines de CI/CD rápidos e resilientes.
+
+---
+## 👨‍💻 Autor
+
+**Edson José dos Santos**  
+SDET (Software Development Engineer in Test) & Performance Enthusiast
+
+
