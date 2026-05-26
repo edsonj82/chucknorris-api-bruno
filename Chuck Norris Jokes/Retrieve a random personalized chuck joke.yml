@@ -5,7 +5,7 @@ info:
 
 http:
   method: get
-  url: https://api.chucknorris.io/jokes/random?name=Bob
+  url: "{{baseURL}}/jokes/random?name=Bob"
   headers:
     - name: accept
       value: application/json

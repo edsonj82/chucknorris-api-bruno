@@ -5,13 +5,13 @@ info:
 
 http:
   method: get
-  url: https://api.chucknorris.io/jokes/search?query=%7Bquery%7D
+  url: "{{baseURL}}/jokes/search?query=query"
   headers:
     - name: accept
       value: application/json
   params:
     - name: query
-      value: "%7Bquery%7D"
+      value: query
       type: query
   auth: inherit
 
