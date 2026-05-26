@@ -1,0 +1,22 @@
+info:
+  name: Retrieve a random personalized chuck joke
+  type: http
+  seq: 4
+
+http:
+  method: get
+  url: https://api.chucknorris.io/jokes/random?name=Bob
+  headers:
+    - name: accept
+      value: application/json
+  params:
+    - name: name
+      value: Bob
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

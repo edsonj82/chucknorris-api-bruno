@@ -1,0 +1,22 @@
+info:
+  name: Free text search
+  type: http
+  seq: 6
+
+http:
+  method: get
+  url: https://api.chucknorris.io/jokes/search?query=%7Bquery%7D
+  headers:
+    - name: accept
+      value: application/json
+  params:
+    - name: query
+      value: "%7Bquery%7D"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
