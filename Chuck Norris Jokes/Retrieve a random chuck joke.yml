@@ -8,6 +8,48 @@ http:
   url: "{{baseURL}}/jokes/random"
   auth: inherit
 
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const Ajv = require('ajv');
+        const ajv = new Ajv();
+
+        // Defina o seu JSON Schema exatamente como estava no Postman
+        const schema = {
+          type: "object",
+          required: ["categories", "created_at", "icon_url", "id", "updated_at", "url", "value"],
+          properties: {
+            categories: { type: "array", items: { type: "string" } },
+            created_at: { type: "string" },
+            icon_url: { type: "string" },
+            id: { type: "string" },
+            updated_at: { type: "string" },
+            url: { type: "string" },
+            value: { type: "string" }
+          }
+        };
+
+        const json = res.getBody();            // Você já mapeou o corpo aqui como 'json'
+        const validate = ajv.compile(schema);  // Compila o schema e depois valida
+        const valid = validate(json);          // Passa a variável 'json' correta para o validador
+
+        // Se falhar, exibe os erros detalhados no log do Bruno
+        if(!valid){
+          console.error("Falha na validação do Schema", validate.errors);
+        }
+
+        // Criando o report visual na aba Tests do Bruno
+        test("JSON Schema should be valid", function(){
+          expect(valid).to.be.true;
+        });
+    - type: tests
+      code: |-
+        test("res.status should be 200",function(){
+          const data = res.getBody();
+          expect(res.getStatus()).to.equal(200);
+        });
+
 settings:
   encodeUrl: true
   timeout: 0
