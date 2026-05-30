@@ -62,8 +62,9 @@ runtime:
         });
     - type: tests
       code: |-
+        const data = res.getBody();
+
         test("res.status should be 200",function(){
-          const data = res.getBody();
           expect(res.getStatus()).to.equal(200);
         });
 
@@ -86,6 +87,26 @@ runtime:
           const responseTime = res.getResponseTime();
           expect(responseTime).to.be.below(1500);// Define o limite máximo tolerável em milissegundos (ex: 1500ms = 1.5s)
         })
+
+        if(data.result && data.result.length > 0){
+          data.result.forEach((joke, index) =>{
+            test("validate the existence and values of required fields", function() {
+              // Garante que o campo existe (não é undefined ou null)
+              expect(joke).to.have.property('categories');
+              expect(joke).to.have.property('created_at');
+              expect(joke).to.have.property('icon_url');
+              expect(joke).to.have.property('id');
+              expect(joke).to.have.property('updated_at');
+              expect(joke).to.have.property('url');
+              expect(joke).to.have.property('value');  
+            });
+          });
+        }
+        else{
+          test("Warning: The search returned an empty list of results",function(){
+            expect(data.total).to.equal(0);
+          });
+        }
 
 settings:
   encodeUrl: false

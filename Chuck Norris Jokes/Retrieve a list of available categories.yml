@@ -41,8 +41,9 @@ runtime:
         });
     - type: tests
       code: |-
+        const data = res.getBody();
+
         test("res.status should be 200",function(){
-          const data = res.getBody();
           expect(res.getStatus()).to.equal(200);
         });
 
@@ -65,6 +66,22 @@ runtime:
           const responseTime = res.getResponseTime();
           expect(responseTime).to.be.below(1500);// Define o limite máximo tolerável em milissegundos (ex: 1500ms = 1.5s)
         })
+
+        const categoryList = ["animal", "career", "celebrity", "dev","explicit", "fashion", "food", "history", "money", "movie", "music", "political", "religion", "science", "sport", "travel"];
+
+        //Teste para cruzar cada item retornado com a lista de referência esperada
+        test("verify that all returned categories belong to the official list", function() {
+          // O método .every() checa se TODOS os itens do retorno passam no teste lógico
+          const allCategoryValidated = data.every(category => categoryList.includes(category));
+          expect(allCategoryValidated).to.be.true;
+        });
+
+        //Teste complementar para checar se a API não retornou uma lista zerada/corrompida
+        test("validate the number of categories in the catalog", function() {
+          // Garante que o tamanho do array bate com o esperado (16 categorias fixas)
+          expect(data).to.have.lengthOf(categoryList.length);
+        });
+
 settings:
   encodeUrl: false
   timeout: 0
