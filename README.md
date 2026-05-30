@@ -37,6 +37,27 @@ Com base na documentação oficial de `image_458f63.png`, a coleção cobre os s
 
 ---
 
+## 🛡️ Estratégia de Testes e Validações
+
+O coração desta coleção é sua suíte de testes automatizados não-funcionais, de negócio e de contrato arquitetada diretamente nas abas **Script (Post-Response)** e **Tests** do Bruno:
+
+### 📥 1. Response Status & Headers
+* **Validação de Código de Status:** Garante que o servidor respondeu com `200 OK`.
+* **Mapeamento de Metadados (Content-Type):** Valida estritamente se o cabeçalho retornado é do tipo `application/json`, blindando o cliente contra quebras de formato.
+* **Política de Caching:** Checa os cabeçalhos de `cache-control` para assegurar que as diretrizes de persistência temporária estão de acordo com o esperado pela infraestrutura.
+
+### ⏱️ 2. Performance & SLA (Response Time)
+* **Limite de Latência:** Uma asserção monitora o tempo de resposta do servidor em milissegundos (`res.getResponseTime()`), garantindo que nenhuma requisição ultrapasse o limite aceitável de SLA tolerado (ex: abaixo de 1500ms).
+
+### 📐 3. Validação de Contrato (JSON Schema com Ajv)
+* Em vez de utilizar abordagens legadas ou parciais, as rotas principais utilizam a biblioteca **Ajv** em modo estrito para compilar e validar o esquema JSON inteiro da resposta em uma única varredura. Campos obrigatórios como `id`, `url`, `value`, `created_at` e `categories` têm seus formatos e tipos primitivos monitorados contra quebras de contrato.
+
+### 🔁 4. Validação Dinâmica de Coleções (Arrays)
+* **Iteração com `.forEach()` (Busca Livre):** Na rota de pesquisa textual, o script faz o parse do payload e varre o array de resultados (`result`) de forma interativa. Cada item da lista gera uma asserção individualizada no relatório do Bruno, apontando cirurgicamente o índice e o ID da piada caso algum campo obrigatório venha ausente ou nulo.
+* **Cruzamento de Gabarito com `.every()` (Categorias):** Na rota de listagem de categorias, o teste utiliza um array de referência estático (gabarito oficial) acoplado aos métodos JavaScript `.every()` e `.includes()`. Isso valida se 100% dos itens da lista dinâmica retornada pelo servidor pertencem ao catálogo homologado, além de aferir a integridade do tamanho total da coleção (`lengthOf`).
+
+---
+
 ## 🏗️ Estrutura do Projeto
 
 A organização segue o padrão do ecossistema nativo do Bruno:
