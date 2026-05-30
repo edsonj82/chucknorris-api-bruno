@@ -52,8 +52,9 @@ runtime:
         });
     - type: tests
       code: |-
+        const data = res.getBody();
+
         test("res.status should be 200",function(){
-          const data = res.getBody();
           expect(res.getStatus()).to.equal(200);
         });
 
@@ -76,6 +77,17 @@ runtime:
           const responseTime = res.getResponseTime();
           expect(responseTime).to.be.below(1500);// Define o limite máximo tolerável em milissegundos (ex: 1500ms = 1.5s)
         })
+
+        test("validate the existence and values of required fields", function() {
+          // Garante que o campo existe (não é undefined ou null)
+          expect(data).to.have.property('categories');
+          expect(data).to.have.property('created_at');
+          expect(data).to.have.property('icon_url');
+          expect(data).to.have.property('id');
+          expect(data).to.have.property('updated_at');
+          expect(data).to.have.property('url');
+          expect(data).to.have.property('value');  
+        });
 
 settings:
   encodeUrl: false
